@@ -63,9 +63,6 @@ sudo apt update && sudo apt upgrade -y
 # Install necessary dependencies
 echo "Installing dependencies..."
 sudo apt install -y \
-    xfce4 \
-    xfce4-goodies \
-    tightvncserver \
     git \
     npm \
     python3 \
@@ -91,14 +88,6 @@ cd websockify
 python3 setup.py install
 cd ..
 
-# Start the VNC server
-echo "Starting the VNC server..."
-vncserver :1
-
-# Set the VNC password (You can customize or automate this step if needed)
-# echo "Setting VNC password..."
-# vncpasswd <<<"yourpassword" 
-
 # Start noVNC with websockify
 echo "Starting noVNC with websockify..."
 ./utils/novnc_proxy --vnc localhost:5901 &
@@ -123,15 +112,20 @@ npm install express
 echo "Creating index.js file..."
 cat <<EOL > index.js
 const express = require("express");
+const path = require("path");
 const app = express();
 const PORT = 8000; // http://localhost:8000/
 
+// Serve the noVNC static files
+app.use(express.static(path.join(__dirname, 'noVNC')));
+
+// Redirect to noVNC's HTML page
 app.get("/", (request, response) => {
-    response.send("hello world");
+    response.sendFile(path.join(__dirname, 'noVNC', 'vnc.html'));
 });
 
 app.listen(PORT, () => {
-    console.log(\`Served at http://localhost:\${PORT}/\`);
+    console.log(\`Express server is serving noVNC at http://localhost:\${PORT}/\`);
 });
 EOL
 
