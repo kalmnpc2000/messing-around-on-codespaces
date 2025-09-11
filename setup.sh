@@ -96,10 +96,6 @@ echo "Starting noVNC with websockify..."
 echo "Installing http-server..."
 npm install -g http-server
 
-# Update npm to the latest version
-echo "Updating npm to the latest version..."
-npm install -g npm
-
 # Initialize a new npm project
 echo "Initializing npm project..."
 npm init -y
