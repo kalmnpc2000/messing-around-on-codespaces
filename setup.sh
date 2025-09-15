@@ -1,13 +1,11 @@
 #!/bin/bash
-# Define variables
-GITHUB_USER="your_github_username"  # Replace with your GitHub username
-CODESPACE_REPO="your_repository"    # Replace with your repository name
 # Function for system update and basic setup
 system_setup() {
-    echo "Updating and upgrading system packages..."
+    echo "Updating and upgrading system packages"
     sudo apt update -y
     sudo apt upgrade -y
-    echo "Installing commonly used packages..."
+
+    echo "Installing commonly used CLI packages"
     sudo apt install -y \
         nano \
         neofetch \
@@ -24,35 +22,34 @@ system_setup() {
         python3-pip \
         python3-dev \
         python3-venv \
-        bash-completion
-}
-# Function for installing developer tools
-developer_tools() {
-    echo "Installing developer tools..."
-    sudo apt install -y \
+        bash-completion \
+        yt-dlp \
         neovim \
         tmux \
         ranger \
-        xclip
+        xclip \
+        # Kali Linux CLI tools for security testing and web analysis
+        nikto \
+        sqlmap \
+        hydra \
+        nmap \
+        metasploit-framework \
+        dirb \
+        john \
+        wfuzz \
+        dnsutils \
+        net-tools \
+        proxychains4 \
+        gobuster \
+        aircrack-ng \
+        # Additional useful CLI tools
+        netcat \
+        tcpdump \
+        screen
 }
-# Function for SSH setup
-ssh_setup() {
-    echo "Checking if SSH keys are set up for GitHub..."
-    if [ ! -f "$HOME/.ssh/id_rsa" ]; then
-        echo "No SSH key found. Generating SSH key..."
-        ssh-keygen -t rsa -b 4096 -C "$GITHUB_USER@github.com" -f "$HOME/.ssh/id_rsa" -N ""
-        echo "SSH key generated. Add the following SSH key to GitHub:"
-        cat "$HOME/.ssh/id_rsa.pub"
-    else
-        echo "SSH key already exists."
-    fi
-    echo "SSH setup completed!"
-}
-# Function for installing yt-dlp (YouTube downloader)
-youtube_downloader() {
-    echo "Installing yt-dlp..."
-    sudo apt install yt-dlp -y
-    echo "yt-dlp installation completed!"
-}
-#Final update for every package
+
+# Run the setup function
+system_setup
+
+# Final update and upgrade for every package
 sudo apt update -y && sudo apt upgrade -y
